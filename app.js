@@ -2,8 +2,12 @@
 const express = require("express");
 const app = express();
 const mongoose = require("mongoose");
+const exphbs = require("express-handlebars");
 const port = 3000;
 
+//use express-handlebars to be template engine
+app.engine("handlebars", exphbs({ defaultLayout: "main" }));
+app.set("view engine", "handlebars");
 //connect to mongoDB
 mongoose.connect("mongodb://localhost/todo", {
   useNewUrlParser: true,
@@ -25,7 +29,7 @@ const Todo = require("./models/todo");
 
 // Todo 首頁
 app.get("/", (req, res) => {
-  res.send("hello world!");
+  return res.render("index");
 });
 // 列出全部 Todo
 app.get("/todos", (req, res) => {
