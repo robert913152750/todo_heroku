@@ -3,7 +3,11 @@ const express = require("express");
 const app = express();
 const mongoose = require("mongoose");
 const exphbs = require("express-handlebars");
+const bodyParser = require("body-parser");
 const port = 3000;
+
+//set bodyParser
+app.use(bodyParser.urlencoded({ extended: true }));
 
 //use express-handlebars to be template engine
 app.engine("handlebars", exphbs({ defaultLayout: "main" }));
@@ -44,7 +48,7 @@ app.get("/todos", (req, res) => {
 });
 // 新增一筆 Todo 頁面
 app.get("/todos/new", (req, res) => {
-  res.send("新增 Todo 頁面");
+  return res.render("new");
 });
 // 顯示一筆 Todo 的詳細內容
 app.get("/todos/:id", (req, res) => {
@@ -52,7 +56,15 @@ app.get("/todos/:id", (req, res) => {
 });
 // 新增一筆  Todo
 app.post("/todos", (req, res) => {
-  res.send("建立 Todo");
+  // 建立 Todo model 實例
+  const todo = new Todo({
+    name: req.body.name //name是從new頁面form過來
+  });
+  //存入資料庫
+  todo.save(err => {
+    if (err) return console.error(err);
+    return res.redirect("/"); // 新增完成後，將使用者導回首頁
+  });
 });
 // 修改 Todo 頁面
 app.get("/todos/:id/edit", (req, res) => {
