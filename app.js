@@ -91,6 +91,17 @@ app.post("/todos/:id/edit", (req, res) => {
     });
   });
 });
+//刪除功能
+app.post("/todos/:id/delete", (req, res) => {
+  Todo.findById(req.params.id, (err, todo) => {
+    if (err) return console.error(err);
+    todo.remove(err => {
+      if (err) return console.error(err);
+      return res.redirect("/");
+    });
+  });
+});
+
 //listen
 app.listen(port, () => {
   console.log(`Express is running on http://localhost:${port}`);
