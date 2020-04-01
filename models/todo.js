@@ -5,6 +5,10 @@ const todoSchema = new Schema({
   name: {
     type: String, //資料型別
     required: true //必填欄位
+  },
+  done: {
+    type: Boolean,
+    default: false
   }
 });
 
