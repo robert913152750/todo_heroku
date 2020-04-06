@@ -4,10 +4,14 @@ const app = express();
 const mongoose = require("mongoose");
 const exphbs = require("express-handlebars");
 const bodyParser = require("body-parser");
+const methodOverride = require("method-override");
 const port = 3000;
 
 //set bodyParser
 app.use(bodyParser.urlencoded({ extended: true }));
+
+//set method-override
+app.use(methodOverride("_method"));
 
 //use express-handlebars to be template engine
 app.engine("handlebars", exphbs({ defaultLayout: "main" }));
@@ -82,7 +86,7 @@ app.get("/todos/:id/edit", (req, res) => {
     });
 });
 // 修改 Todo
-app.post("/todos/:id/edit", (req, res) => {
+app.put("/todos/:id", (req, res) => {
   Todo.findById(req.params.id, (err, todo) => {
     if (err) return console.error(err);
     todo.name = req.body.name;
@@ -98,7 +102,7 @@ app.post("/todos/:id/edit", (req, res) => {
   });
 });
 //刪除功能
-app.post("/todos/:id/delete", (req, res) => {
+app.delete("/todos/:id/delete", (req, res) => {
   Todo.findById(req.params.id, (err, todo) => {
     if (err) return console.error(err);
     todo.remove(err => {
