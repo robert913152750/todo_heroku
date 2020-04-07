@@ -20,7 +20,7 @@ app.set("view engine", "handlebars");
 //connect to mongoDB
 mongoose.connect("mongodb://localhost/todo", {
   useNewUrlParser: true,
-  useUnifiedTopology: true
+  useUnifiedTopology: true,
 });
 const db = mongoose.connection;
 
@@ -39,6 +39,7 @@ const Todo = require("./models/todo");
 //export route
 app.use("/", require("./routes/home"));
 app.use("/todos", require("./routes/todo"));
+app.use("/users", require("./routes/user"));
 
 //listen
 app.listen(port, () => {
