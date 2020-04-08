@@ -5,6 +5,7 @@ const mongoose = require("mongoose");
 const exphbs = require("express-handlebars");
 const bodyParser = require("body-parser");
 const methodOverride = require("method-override");
+const session = require("express-session");
 const port = 3000;
 
 //set bodyParser
@@ -16,6 +17,15 @@ app.use(methodOverride("_method"));
 //use express-handlebars to be template engine
 app.engine("handlebars", exphbs({ defaultLayout: "main" }));
 app.set("view engine", "handlebars");
+
+//set express-session
+app.use(
+  session({
+    secret: "your secret key",
+    resave: false,
+    saveUninitialized: true,
+  })
+);
 
 //connect to mongoDB
 mongoose.connect("mongodb://localhost/todo", {
