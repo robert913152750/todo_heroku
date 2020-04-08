@@ -6,6 +6,7 @@ const exphbs = require("express-handlebars");
 const bodyParser = require("body-parser");
 const methodOverride = require("method-override");
 const session = require("express-session");
+const passport = require("passport");
 const port = 3000;
 
 //set bodyParser
@@ -27,6 +28,19 @@ app.use(
   })
 );
 
+//use passport
+app.use(passport.initialize());
+app.use(passport.session());
+
+//load passport config
+require("./config/passport")(passport);
+
+//登入後可以取得使用者資訊方便我們在view裡使用
+app.use((req, res, next) => {
+  res.locals.user = req.user;
+  next();
+});
+
 //connect to mongoDB
 mongoose.connect("mongodb://localhost/todo", {
   useNewUrlParser: true,
@@ -46,7 +60,7 @@ db.once("open", () => {
 //require todo module
 const Todo = require("./models/todo");
 
-//export route
+//load route
 app.use("/", require("./routes/home"));
 app.use("/todos", require("./routes/todo"));
 app.use("/users", require("./routes/user"));
