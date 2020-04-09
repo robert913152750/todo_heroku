@@ -13,7 +13,7 @@ router.post("/login", (req, res, next) => {
   passport.authenticate("local", {
     //使用 passport 認證
     successRedirect: "/", //登入成功會回到跟目錄
-    failureRedirect: "/user/login", // 失敗會留在登入頁面
+    failureRedirect: "/users/login", // 失敗會留在登入頁面
   })(req, res, next);
 });
 
