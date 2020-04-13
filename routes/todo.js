@@ -15,7 +15,7 @@ router.get("/new", authenticated, (req, res) => {
 });
 // 顯示一筆 Todo 的詳細內容
 router.get("/:id", authenticated, (req, res) => {
-  Todo.findById(req.params.id)
+  Todo.findOne({ _id: req.params.id, userId: req.user._id })
     .lean()
     .exec((err, todo) => {
       if (err) return console.error(err);
@@ -27,6 +27,7 @@ router.post("/", authenticated, (req, res) => {
   // 建立 Todo model 實例
   const todo = new Todo({
     name: req.body.name, //name是從new頁面form過來
+    userId: req.user._id,
   });
   //存入資料庫
   todo.save((err) => {
@@ -36,7 +37,7 @@ router.post("/", authenticated, (req, res) => {
 });
 // 修改 Todo 頁面
 router.get("/:id/edit", authenticated, (req, res) => {
-  Todo.findById(req.params.id)
+  Todo.findOne({ _id: req.params.id, userId: req.user._id })
     .lean()
     .exec((err, todo) => {
       if (err) return console.error(err);
@@ -45,7 +46,7 @@ router.get("/:id/edit", authenticated, (req, res) => {
 });
 // 修改 Todo
 router.put("/:id", authenticated, (req, res) => {
-  Todo.findById(req.params.id, (err, todo) => {
+  Todo.findOne({ _id: req.params.id, userId: req.user._id }, (err, todo) => {
     if (err) return console.error(err);
     todo.name = req.body.name;
     if (req.body.done === "on") {
@@ -61,7 +62,7 @@ router.put("/:id", authenticated, (req, res) => {
 });
 //刪除功能
 router.delete("/:id/delete", authenticated, (req, res) => {
-  Todo.findById(req.params.id, (err, todo) => {
+  Todo.findOne({ _id: req.params.id, userId: req.user._id }, (err, todo) => {
     if (err) return console.error(err);
     todo.remove((err) => {
       if (err) return console.error(err);

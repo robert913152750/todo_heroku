@@ -46,6 +46,7 @@ app.use((req, res, next) => {
 mongoose.connect("mongodb://localhost/todo", {
   useNewUrlParser: true,
   useUnifiedTopology: true,
+  useCreateIndex: true,
 });
 const db = mongoose.connection;
 
