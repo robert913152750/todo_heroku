@@ -9,6 +9,11 @@ const session = require("express-session");
 const passport = require("passport");
 const port = 3000;
 
+//判別開發環境
+if (process.env.NODE_ENV !== "production") {
+  require("dotenv").config();
+}
+
 //set bodyParser
 app.use(bodyParser.urlencoded({ extended: true }));
 
@@ -66,6 +71,7 @@ const Todo = require("./models/todo");
 app.use("/", require("./routes/home"));
 app.use("/todos", require("./routes/todo"));
 app.use("/users", require("./routes/user"));
+app.use("/auth", require("./routes/auth"));
 
 //listen
 app.listen(port, () => {
