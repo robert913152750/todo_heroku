@@ -54,7 +54,7 @@ app.use((req, res, next) => {
 });
 
 //connect to mongoDB
-mongoose.connect("mongodb://localhost/todo", {
+mongoose.connect(process.env.MONGODB_URI || "mongodb://localhost/todo", {
   useNewUrlParser: true,
   useUnifiedTopology: true,
   useCreateIndex: true,
@@ -80,6 +80,6 @@ app.use("/users", require("./routes/user"));
 app.use("/auth", require("./routes/auth"));
 
 //listen
-app.listen(port, () => {
+app.listen(process.env.PORT || port, () => {
   console.log(`Express is running on http://localhost:${port}`);
 });
