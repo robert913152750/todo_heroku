@@ -80,6 +80,6 @@ app.use("/users", require("./routes/user"));
 app.use("/auth", require("./routes/auth"));
 
 //listen
-app.listen(process.env.PORT || port, () => {
-  console.log(`Express is running on http://localhost:${port}`);
+app.listen(process.env.PORT || 3000, () => {
+  console.log("App is running");
 });
